@@ -36,6 +36,7 @@ body{background:#020204!important;}
 
 /* V3.0 live data, bonus training, and player photo cards */
 .connectionBadge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:8px 10px;font-weight:1000;text-transform:uppercase;letter-spacing:.06em;color:#d8e0ea}.connectionBadge.live{border-color:rgba(48,209,88,.55);color:#bfffd0}.connectionBadge.offline{border-color:rgba(244,200,75,.6);color:#ffeaa5}.photo-slot{width:180px;height:180px;margin:0 auto 20px;background:linear-gradient(135deg,#fff,#ced7e4);border:8px solid #111;box-shadow:inset 0 0 0 5px var(--red),0 15px 40px rgba(0,0,0,.35);clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);display:grid;place-items:center;color:#07090f;text-align:center;overflow:hidden}.photo-slot img{width:100%;height:100%;object-fit:cover}.photo-placeholder b{display:block;font-size:2.4rem;line-height:1}.photo-placeholder span{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}.bonus-card{grid-column:1/-1}.bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bonus-option{background:#060910;border:1px solid rgba(255,255,255,.14);border-radius:4px;padding:12px;font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800}.bonus-option input{width:auto;margin:0 8px 0 0}.bonus-option small{display:block;color:var(--muted);margin-left:26px}.badgeRack{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.badgeChip{background:rgba(244,200,75,.15);border:1px solid rgba(244,200,75,.35);border-radius:4px;padding:6px 8px;font-weight:1000;font-size:.75rem;letter-spacing:.04em}.coachStatus.bonus{background:rgba(244,200,75,.16);color:#ffeaa5;border-color:rgba(244,200,75,.5)}.setupBox{margin:16px 0;padding:15px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);border-radius:4px}.setupBox code{white-space:normal;color:#ffeaa5}.smallBtn{border:1px solid rgba(255,255,255,.16)!important;background:#151d2a!important;color:#fff!important;box-shadow:none!important;padding:9px 12px!important}.syncNote{font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--muted);font-size:.9rem;margin-top:8px}.podium-photo{width:58px;height:58px;border-radius:6px;clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);background:#fff;color:#111;display:grid;place-items:center;margin:0 auto 8px;font-weight:1000;border:3px solid var(--red)}
+.date-card{grid-column:1/-1}.date-card input{max-width:260px}.connectionBadge.error{border-color:rgba(227,25,38,.85);color:#ff9aa1}.connectionBadge.live{background:rgba(48,209,88,.08)}
 </style>
 
 <style id="readability-fix-v1-7">
@@ -164,6 +165,12 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
         <div class="missionDeck">
           <div id="dashboardEmpty" class="empty-state">Choose your name on the Home screen to unlock today’s missions.</div>
           <div id="dashboard" class="hidden missionStack">
+            <article class="missionCard date-card">
+              <div class="missionTop"><span>📅</span><div><p class="kicker">Check-In Date</p><h3>Choose The Day</h3></div><em>Backfill / Fix</em></div>
+              <p>Players can save today or go back to a previous day if they forgot to check in or need to correct their shot total.</p>
+              <input type="date" id="checkinDate" />
+              <p class="tiny">Please use this honestly. Coaches will be able to see saved times in the tracking table.</p>
+            </article>
             <article class="missionCard workout-card">
               <div class="missionTop"><span>⚡</span><div><p class="kicker">Mission 1</p><h3>Workout</h3></div><em id="workoutFocus">Speed</em></div>
               <p id="workoutDescription"></p><ol id="workoutSteps"></ol>
@@ -178,9 +185,9 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
             </article>
             <article class="missionCard bonus-card">
               <div class="missionTop"><span>⭐</span><div><p class="kicker">Optional Bonus Training</p><h3>Extra Work</h3></div><em>Recognition Points</em></div>
-              <p>Log extra hockey development completed today. Rollerblading is capped at 4 scoring sessions per week.</p>
+              <p>Log extra hockey development completed for the selected day. Rollerblading can be counted every day if players are putting in the extra work.</p>
               <div class="bonus-grid">
-                <label class="bonus-option"><input type="checkbox" id="bonusRoller" /> Rollerblading <small>+10 pts, max 4 per week</small></label>
+                <label class="bonus-option"><input type="checkbox" id="bonusRoller" /> Rollerblading <small>+10 pts each day</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusPower" /> Power skating / skating clinic <small>+20 pts</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusPrivate" /> Private lesson <small>+20 pts</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusIce" /> Summer ice / stick & puck <small>+15 pts</small></label>
@@ -375,16 +382,31 @@ const tips = [
 ];
 
 function todayKey(){ return localStorage.getItem('hawksDateOverride') || new Date().toLocaleDateString('en-CA'); }
+function activeDateKey(){ return document.getElementById('checkinDate')?.value || todayKey(); }
 function dayIndex(dateStr){ const d = new Date(dateStr+'T00:00:00'); const s = new Date(START+'T00:00:00'); return Math.max(0, Math.floor((d-s)/86400000)); }
 function getData(){ return cloudData || JSON.parse(localStorage.getItem(STORE) || '{}'); }
 function setData(data){ localStorage.setItem(STORE, JSON.stringify(data)); cloudData = data; updateCloudStatus(); }
 function cloudConfigured(){ return !!CLOUD_SCRIPT_URL && !CLOUD_SCRIPT_URL.includes('PASTE'); }
+function cloudRequest(params){
+  return new Promise((resolve,reject)=>{
+    if(!cloudConfigured()) return reject(new Error('Shared data URL is not configured.'));
+    const cb = 'hawksCb_' + Math.random().toString(36).slice(2);
+    const script = document.createElement('script');
+    const cleanup = ()=>{ try{ delete window[cb]; }catch(e){} script.remove(); };
+    const timer = setTimeout(()=>{ cleanup(); reject(new Error('Shared data request timed out.')); }, 12000);
+    window[cb] = (payload)=>{ clearTimeout(timer); cleanup(); resolve(payload || {}); };
+    const query = new URLSearchParams({...params, callback:cb, v:Date.now()});
+    script.onerror = ()=>{ clearTimeout(timer); cleanup(); reject(new Error('Shared data script could not load.')); };
+    script.src = CLOUD_SCRIPT_URL + '?' + query.toString();
+    document.body.appendChild(script);
+  });
+}
 async function loadCloudData(){
   if(!cloudConfigured()){ updateCloudStatus('Local browser mode. Shared Google Sheets is not connected yet.'); return; }
   try{
     updateCloudStatus('Loading shared team data...');
-    const res = await fetch(CLOUD_SCRIPT_URL + '?action=get&v=' + Date.now(), {cache:'no-store'});
-    const json = await res.json();
+    const json = await cloudRequest({action:'get'});
+    if(json.ok === false) throw new Error(json.error || 'Shared data returned an error.');
     cloudData = json.data || {};
     localStorage.setItem(STORE, JSON.stringify(cloudData));
     lastCloudSync = new Date(); cloudError=''; updateCloudStatus();
@@ -394,18 +416,31 @@ async function loadCloudData(){
     updateCloudStatus('Could not reach shared data. Using this device backup.');
   }
 }
-async function saveCloudData(data){
-  if(!cloudConfigured()) return;
+async function saveCloudRecord(playerIdValue, dateValue, record){
+  if(!cloudConfigured()) return {ok:false, local:true};
   try{
     updateCloudStatus('Saving to shared team data...');
-    await fetch(CLOUD_SCRIPT_URL, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({action:'saveAll', data})});
+    const json = await cloudRequest({action:'saveRecord', playerId:playerIdValue, date:dateValue, record:JSON.stringify(record)});
+    if(json.ok === false) throw new Error(json.error || 'Save failed.');
+    if(json.data) { cloudData = json.data; localStorage.setItem(STORE, JSON.stringify(cloudData)); }
     lastCloudSync = new Date(); cloudError=''; updateCloudStatus();
-  }catch(err){ cloudError = err.message || 'Save failed.'; updateCloudStatus('Save failed. This device kept a backup.'); }
+    return {ok:true};
+  }catch(err){ cloudError = err.message || 'Save failed.'; updateCloudStatus('Save failed. This device kept a backup.'); return {ok:false,error:cloudError}; }
+}
+async function saveCloudData(data){
+  if(!cloudConfigured()) return {ok:false, local:true};
+  try{
+    updateCloudStatus('Saving full data set...');
+    const json = await cloudRequest({action:'saveAll', data:JSON.stringify(data)});
+    if(json.ok === false) throw new Error(json.error || 'Save failed.');
+    if(json.data) { cloudData = json.data; localStorage.setItem(STORE, JSON.stringify(cloudData)); }
+    lastCloudSync = new Date(); cloudError=''; updateCloudStatus(); return {ok:true};
+  }catch(err){ cloudError = err.message || 'Save failed.'; updateCloudStatus('Save failed. This device kept a backup.'); return {ok:false,error:cloudError}; }
 }
 function updateCloudStatus(custom){
   const badge=document.getElementById('connectionBadge'); const status=document.getElementById('cloudStatus');
-  const msg = custom || (cloudConfigured() ? (lastCloudSync ? `Shared data connected. Last sync: ${lastCloudSync.toLocaleTimeString()}` : 'Shared data configured.') : 'Local test mode. Add Apps Script URL for shared team data.');
-  if(badge){ badge.textContent = cloudConfigured() ? 'LIVE TEAM DATA READY' : 'LOCAL TEST MODE'; badge.classList.toggle('live', cloudConfigured()); badge.classList.toggle('offline', !cloudConfigured()); }
+  const msg = custom || (cloudConfigured() ? (lastCloudSync ? `Shared data connected. Last sync: ${lastCloudSync.toLocaleTimeString()}` : 'Shared data configured. Refresh shared data to test the connection.') : 'Local test mode. Add Apps Script URL for shared team data.');
+  if(badge){ badge.textContent = cloudConfigured() ? (cloudError ? 'SHARED DATA ERROR' : (lastCloudSync ? 'LIVE TEAM DATA' : 'LIVE DATA READY')) : 'LOCAL TEST MODE'; badge.classList.toggle('live', cloudConfigured() && !cloudError); badge.classList.toggle('offline', !cloudConfigured()); badge.classList.toggle('error', !!cloudError); }
   if(status) status.textContent = msg;
 }
 function playerId(p){ return `${p.num}-${p.name}`.replace(/\s+/g,'-').toLowerCase(); }
@@ -436,6 +471,7 @@ async function init(){
   document.getElementById('saveCheckin').addEventListener('click', saveCheckin);
   document.querySelectorAll('[data-step]').forEach(btn=>btn.addEventListener('click',()=>adjustShots(Number(btn.dataset.step))));
   document.getElementById('shotCount').addEventListener('input', updatePuckMeter);
+  document.getElementById('checkinDate')?.addEventListener('change', ()=>{ if(activePlayer) renderDashboard(); });
   document.getElementById('exportData').addEventListener('click', exportData);
   document.getElementById('importData').addEventListener('change', importData);
   document.getElementById('resetTesting').addEventListener('click', resetTesting);
@@ -545,6 +581,7 @@ function renderGlobal(){
   demoLink.href = `https://www.youtube.com/results?search_query=youth+hockey+${encodeURIComponent(shot.focus)}+drill`;
   demoLink.textContent = `Search demos for ${shot.focus}`;
   document.getElementById('dateOverride').value = localStorage.getItem('hawksDateOverride') || '';
+  const cd=document.getElementById('checkinDate'); if(cd && !cd.value){ cd.min=START; cd.max=END; cd.value=todayKey(); }
 }
 
 function login(){
@@ -598,20 +635,14 @@ function renderPlayerPhoto(player){
 function bonusLabels(rec){ const b=rec?.bonus||{}; const out=[]; if(b.roller) out.push('🛼 Roller'); if(b.power) out.push('⛸️ Power'); if(b.privateLesson) out.push('🏒 Lesson'); if(b.ice) out.push('🥅 Ice'); return out; }
 function bonusPointsFor(rec,date,id){
   const b=rec?.bonus||{}; let pts=0;
+  if(b.roller) pts+=10;
   if(b.power) pts+=20; if(b.privateLesson) pts+=20; if(b.ice) pts+=15;
-  if(b.roller){
-    if(id){
-      const data=getData()[id]||{}; const ws=weekStart(date); let count=0;
-      for(let i=0;i<7;i++){ const dd=new Date(ws+'T00:00:00'); dd.setDate(dd.getDate()+i); const key=dd.toLocaleDateString('en-CA'); if(key>date) continue; if(data[key]?.bonus?.roller) count++; }
-      if(count<=4) pts+=10;
-    } else pts+=10;
-  }
   return pts;
 }
 function getBadges(stats){ return BADGE_RULES.filter(b=>b.test(stats)).map(b=>b.label); }
 
 function renderDashboard(){
-  const d=todayKey(); const idx=dayIndex(d); const w=workouts[idx%workouts.length]; const s=shots[idx%shots.length]; const data=getData(); const id=playerId(activePlayer); const rec=data[id]?.[d] || {};
+  const d=activeDateKey(); const dateInput=document.getElementById('checkinDate'); if(dateInput){ dateInput.min=START; dateInput.max=END; if(!dateInput.value) dateInput.value=todayKey(); } const idx=dayIndex(d); const w=workouts[idx%workouts.length]; const s=shots[idx%shots.length]; const data=getData(); const id=playerId(activePlayer); const rec=data[id]?.[d] || {};
   document.getElementById('dashboardTitle').textContent = `#${activePlayer.num} ${activePlayer.name}`;
   renderPlayerPhoto(activePlayer);
   document.getElementById('playerMeta').innerHTML = `<span class="chip">${activePlayer.role==='goalie'?'Goalie':'Skater'}</span><span class="chip">${isTesting(d)?'Launch Week':(isOfficial(d)?'Official Day':'Preview')}</span><span class="chip">Day ${idx+1}</span>`;
@@ -642,9 +673,13 @@ function updatePuckMeter(){ const fill=document.getElementById('puckMeterFill');
 function score(rec, date, id){ if(!rec) return 0; if(!isOfficial(date)) return 0; let pts=0; if(rec.workout) pts+=5; if(rec.shotDone || Number(rec.shots)>=150) pts+=5; if((rec.reflection||'').trim().length>3) pts+=1; if(rec.workout && (rec.shotDone || Number(rec.shots)>=150)) pts+=2; pts += bonusPointsFor(rec,date,id); return pts; }
 async function saveCheckin(){
   if(!activePlayer) return;
-  const d=todayKey(); const data=getData(); const id=playerId(activePlayer); data[id] ||= {};
-  data[id][d] = { workout:document.getElementById('workoutCheck').checked, shots:Number(document.getElementById('shotCount').value||0), shotDone:document.getElementById('shotCheck').checked || Number(document.getElementById('shotCount').value||0)>=150, reflection:document.getElementById('reflection').value.trim(), bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked}, savedAt:new Date().toISOString(), testing:isTesting(d), official:isOfficial(d) };
-  setData(data); await saveCloudData(data); document.getElementById('saveMessage').textContent = isTesting(d) ? 'Saved for Testing Week! This will reset on Monday June 29.' : (isOfficial(d) ? 'Saved! Great work today.' : 'Saved as preview data.'); renderDashboard(); renderLeaderboards();
+  const d=activeDateKey(); const data=getData(); const id=playerId(activePlayer); data[id] ||= {};
+  const record = { workout:document.getElementById('workoutCheck').checked, shots:Number(document.getElementById('shotCount').value||0), shotDone:document.getElementById('shotCheck').checked || Number(document.getElementById('shotCount').value||0)>=150, reflection:document.getElementById('reflection').value.trim(), bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked}, savedAt:new Date().toISOString(), savedForDate:d, testing:isTesting(d), official:isOfficial(d) };
+  data[id][d] = record;
+  setData(data); const cloudResult = await saveCloudRecord(id, d, record);
+  const baseMsg = isTesting(d) ? 'Saved for Testing Week! This will reset on Monday June 29.' : (isOfficial(d) ? 'Saved! Great work.' : 'Saved as preview data.');
+  document.getElementById('saveMessage').textContent = cloudResult.ok ? `${baseMsg} Shared team data updated.` : `${baseMsg} This device saved it, but shared team data did not confirm.`;
+  await loadCloudData(); renderDashboard(); renderLeaderboards();
 }
 function dateRange(){ const dates=[]; let d=new Date(START+'T00:00:00'); const end=new Date(END+'T00:00:00'); while(d<=end){dates.push(d.toLocaleDateString('en-CA')); d.setDate(d.getDate()+1);} return dates; }
 function weekStart(dateStr){ const d=new Date(dateStr+'T00:00:00'); const day=d.getDay(); const diff=(day+6)%7; d.setDate(d.getDate()-diff); return d.toLocaleDateString('en-CA'); }
@@ -739,8 +774,8 @@ function exportData(){ const blob=new Blob([JSON.stringify(getData(),null,2)],{t
 function importData(e){ const file=e.target.files[0]; if(!file) return; const reader=new FileReader(); reader.onload=async()=>{ try{ const parsed=JSON.parse(reader.result); setData(parsed); await saveCloudData(parsed); renderLeaderboards(); if(activePlayer) renderDashboard(); alert('Data imported.'); }catch(err){ alert('Could not import this file.'); } }; reader.readAsText(file); }
 async function resetTesting(){ if(!confirm('This will clear June 23–28 Testing Week check-ins. Continue?')) return; const data=getData(); Object.values(data).forEach(player=>TEST_DATES.forEach(d=>delete player[d])); setData(data); await saveCloudData(data); renderLeaderboards(); if(activePlayer) renderDashboard(); }
 async function clearAll(){ if(!confirm('Clear ALL check-ins?')) return; const empty={}; setData(empty); localStorage.removeItem(STORE); cloudData=empty; await saveCloudData(empty); renderLeaderboards(); if(activePlayer) renderDashboard(); }
-function setDateOverride(){ const val=document.getElementById('dateOverride').value; if(val){ localStorage.setItem('hawksDateOverride',val); runLaunchResetIfNeeded(); renderGlobal(); if(activePlayer) renderDashboard(); renderLeaderboards(); } }
-function clearDateOverride(){ localStorage.removeItem('hawksDateOverride'); renderGlobal(); if(activePlayer) renderDashboard(); renderLeaderboards(); }
+function setDateOverride(){ const val=document.getElementById('dateOverride').value; if(val){ localStorage.setItem('hawksDateOverride',val); const cd=document.getElementById('checkinDate'); if(cd) cd.value=val; runLaunchResetIfNeeded(); renderGlobal(); if(activePlayer) renderDashboard(); renderLeaderboards(); } }
+function clearDateOverride(){ localStorage.removeItem('hawksDateOverride'); const cd=document.getElementById('checkinDate'); if(cd) cd.value=todayKey(); renderGlobal(); if(activePlayer) renderDashboard(); renderLeaderboards(); }
 init();
 
 </script>
