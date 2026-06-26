@@ -37,6 +37,8 @@ body{background:#020204!important;}
 /* V3.0 live data, bonus training, and player photo cards */
 .connectionBadge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:8px 10px;font-weight:1000;text-transform:uppercase;letter-spacing:.06em;color:#d8e0ea}.connectionBadge.live{border-color:rgba(48,209,88,.55);color:#bfffd0}.connectionBadge.offline{border-color:rgba(244,200,75,.6);color:#ffeaa5}.photo-slot{width:180px;height:180px;margin:0 auto 20px;background:linear-gradient(135deg,#fff,#ced7e4);border:8px solid #111;box-shadow:inset 0 0 0 5px var(--red),0 15px 40px rgba(0,0,0,.35);clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);display:grid;place-items:center;color:#07090f;text-align:center;overflow:hidden}.photo-slot img{width:100%;height:100%;object-fit:cover}.photo-placeholder b{display:block;font-size:2.4rem;line-height:1}.photo-placeholder span{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}.bonus-card{grid-column:1/-1}.bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bonus-option{background:#060910;border:1px solid rgba(255,255,255,.14);border-radius:4px;padding:12px;font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800}.bonus-option input{width:auto;margin:0 8px 0 0}.bonus-option small{display:block;color:var(--muted);margin-left:26px}.badgeRack{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.badgeChip{background:rgba(244,200,75,.15);border:1px solid rgba(244,200,75,.35);border-radius:4px;padding:6px 8px;font-weight:1000;font-size:.75rem;letter-spacing:.04em}.coachStatus.bonus{background:rgba(244,200,75,.16);color:#ffeaa5;border-color:rgba(244,200,75,.5)}.setupBox{margin:16px 0;padding:15px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);border-radius:4px}.setupBox code{white-space:normal;color:#ffeaa5}.smallBtn{border:1px solid rgba(255,255,255,.16)!important;background:#151d2a!important;color:#fff!important;box-shadow:none!important;padding:9px 12px!important}.syncNote{font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--muted);font-size:.9rem;margin-top:8px}.podium-photo{width:58px;height:58px;border-radius:6px;clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);background:#fff;color:#111;display:grid;place-items:center;margin:0 auto 8px;font-weight:1000;border:3px solid var(--red)}
 .date-card{grid-column:1/-1}.date-card input{max-width:260px}.connectionBadge.error{border-color:rgba(227,25,38,.85);color:#ff9aa1}.connectionBadge.live{background:rgba(48,209,88,.08)}
+
+.dateNavRow{display:grid;grid-template-columns:52px 1fr 52px;gap:10px;align-items:center;margin-top:10px}.dateArrow,.sectionSubmit{border:0;border-radius:14px;background:linear-gradient(135deg,#e10600,#8b0000);color:#fff;font-weight:900;letter-spacing:.06em;box-shadow:0 12px 24px rgba(0,0,0,.35);cursor:pointer}.dateArrow{height:52px;font-size:22px}.dateArrow.hidden{visibility:hidden;display:block!important}.sectionSubmit{margin-top:14px;width:100%;padding:14px 16px}.sectionSubmit:hover,.dateArrow:hover{filter:brightness(1.08);transform:translateY(-1px)}.sectionSubmit.saving{opacity:.75;pointer-events:none}.save-message.good{color:#a4ffba}.save-message.warn{color:#ffd27a}.save-message.bad{color:#ff8f98}
 </style>
 
 <style id="readability-fix-v1-7">
@@ -89,6 +91,8 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
 
 /* V3.0 live data, bonus training, and player photo cards */
 .connectionBadge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:4px;padding:8px 10px;font-weight:1000;text-transform:uppercase;letter-spacing:.06em;color:#d8e0ea}.connectionBadge.live{border-color:rgba(48,209,88,.55);color:#bfffd0}.connectionBadge.offline{border-color:rgba(244,200,75,.6);color:#ffeaa5}.photo-slot{width:180px;height:180px;margin:0 auto 20px;background:linear-gradient(135deg,#fff,#ced7e4);border:8px solid #111;box-shadow:inset 0 0 0 5px var(--red),0 15px 40px rgba(0,0,0,.35);clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);display:grid;place-items:center;color:#07090f;text-align:center;overflow:hidden}.photo-slot img{width:100%;height:100%;object-fit:cover}.photo-placeholder b{display:block;font-size:2.4rem;line-height:1}.photo-placeholder span{display:block;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}.bonus-card{grid-column:1/-1}.bonus-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}.bonus-option{background:#060910;border:1px solid rgba(255,255,255,.14);border-radius:4px;padding:12px;font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800}.bonus-option input{width:auto;margin:0 8px 0 0}.bonus-option small{display:block;color:var(--muted);margin-left:26px}.badgeRack{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.badgeChip{background:rgba(244,200,75,.15);border:1px solid rgba(244,200,75,.35);border-radius:4px;padding:6px 8px;font-weight:1000;font-size:.75rem;letter-spacing:.04em}.coachStatus.bonus{background:rgba(244,200,75,.16);color:#ffeaa5;border-color:rgba(244,200,75,.5)}.setupBox{margin:16px 0;padding:15px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);border-radius:4px}.setupBox code{white-space:normal;color:#ffeaa5}.smallBtn{border:1px solid rgba(255,255,255,.16)!important;background:#151d2a!important;color:#fff!important;box-shadow:none!important;padding:9px 12px!important}.syncNote{font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--muted);font-size:.9rem;margin-top:8px}.podium-photo{width:58px;height:58px;border-radius:6px;clip-path:polygon(10% 0,100% 0,90% 100%,0 100%);background:#fff;color:#111;display:grid;place-items:center;margin:0 auto 8px;font-weight:1000;border:3px solid var(--red)}
+
+.dateNavRow{display:grid;grid-template-columns:52px 1fr 52px;gap:10px;align-items:center;margin-top:10px}.dateArrow,.sectionSubmit{border:0;border-radius:14px;background:linear-gradient(135deg,#e10600,#8b0000);color:#fff;font-weight:900;letter-spacing:.06em;box-shadow:0 12px 24px rgba(0,0,0,.35);cursor:pointer}.dateArrow{height:52px;font-size:22px}.dateArrow.hidden{visibility:hidden;display:block!important}.sectionSubmit{margin-top:14px;width:100%;padding:14px 16px}.sectionSubmit:hover,.dateArrow:hover{filter:brightness(1.08);transform:translateY(-1px)}.sectionSubmit.saving{opacity:.75;pointer-events:none}.save-message.good{color:#a4ffba}.save-message.warn{color:#ffd27a}.save-message.bad{color:#ff8f98}
 </style>
 </head>
 <body>
@@ -131,7 +135,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
             <input id="playerPassword" type="password" placeholder="Password: firstname + number" autocomplete="off" />
             <div class="loginActions"><button id="loginBtn">Open Dashboard</button><button id="homeLogout" class="logoutBtn hidden" type="button">Log Out</button></div>
             <p id="loginError" class="tiny" style="color:#ff8f98;font-weight:900;min-height:18px"></p>
-            <p class="tiny">Password example: Isaiah88. Passwords are not case-sensitive. Data saves in this browser.</p>
+            <p class="tiny">Password example: Isaiah88. Passwords are not case-sensitive. Data saves to the shared team tracker when connected, with this device as a backup.</p>
           </div>
         </div>
       </div>
@@ -168,13 +172,18 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
             <article class="missionCard date-card">
               <div class="missionTop"><span>📅</span><div><p class="kicker">Check-In Date</p><h3>Choose The Day</h3></div><em>Backfill / Fix</em></div>
               <p>Players can save today or go back to a previous day if they forgot to check in or need to correct their shot total.</p>
-              <input type="date" id="checkinDate" />
-              <p class="tiny">Please use this honestly. Coaches will be able to see saved times in the tracking table.</p>
+              <div class="dateNavRow">
+                <button id="prevDateBtn" class="dateArrow" type="button" title="Go back one day">◀</button>
+                <input type="date" id="checkinDate" />
+                <button id="nextDateBtn" class="dateArrow hidden" type="button" title="Go forward one day">▶</button>
+              </div>
+              <p class="tiny">Use the back arrow to fix a previous day. The forward arrow only appears after you go backwards and never goes past today.</p>
             </article>
             <article class="missionCard workout-card">
               <div class="missionTop"><span>⚡</span><div><p class="kicker">Mission 1</p><h3>Workout</h3></div><em id="workoutFocus">Speed</em></div>
               <p id="workoutDescription"></p><ol id="workoutSteps"></ol>
               <label class="checkline"><input type="checkbox" id="workoutCheck" /> Completed workout</label>
+              <button id="submitWorkout" class="sectionSubmit" type="button">SUBMIT WORKOUT</button>
             </article>
             <article class="missionCard puck-card">
               <div class="missionTop"><span>🎯</span><div><p class="kicker">Mission 2</p><h3 id="shotTitle">150 Puck Shooting Goal</h3></div><em id="shotFocus">Accuracy</em></div>
@@ -182,6 +191,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
               <div class="puck-meter"><div class="puck-meter-fill" id="puckMeterFill"></div></div>
               <div class="progress-control"><button data-step="-25">-25</button><input type="number" id="shotCount" min="0" max="300" value="0" /><button data-step="25">+25</button></div>
               <label class="checkline"><input type="checkbox" id="shotCheck" /> Completed hockey challenge</label>
+              <button id="submitShooting" class="sectionSubmit" type="button">SUBMIT PUCKS / SAVES</button>
             </article>
             <article class="missionCard bonus-card">
               <div class="missionTop"><span>⭐</span><div><p class="kicker">Optional Bonus Training</p><h3>Extra Work</h3></div><em>Recognition Points</em></div>
@@ -192,6 +202,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
                 <label class="bonus-option"><input type="checkbox" id="bonusPrivate" /> Private lesson <small>+20 pts</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusIce" /> Summer ice / stick & puck <small>+15 pts</small></label>
               </div>
+              <button id="submitBonus" class="sectionSubmit" type="button">SUBMIT EXTRA WORK</button>
             </article>
             <article class="missionCard reflection-card">
               <div class="missionTop"><span>📝</span><div><p class="kicker">Bonus</p><h3>Reflection</h3></div></div>
@@ -385,8 +396,23 @@ function todayKey(){ return localStorage.getItem('hawksDateOverride') || new Dat
 function activeDateKey(){ return document.getElementById('checkinDate')?.value || todayKey(); }
 function dayIndex(dateStr){ const d = new Date(dateStr+'T00:00:00'); const s = new Date(START+'T00:00:00'); return Math.max(0, Math.floor((d-s)/86400000)); }
 function getData(){ return cloudData || JSON.parse(localStorage.getItem(STORE) || '{}'); }
-function setData(data){ localStorage.setItem(STORE, JSON.stringify(data)); cloudData = data; updateCloudStatus(); }
+function setData(data){
+  try{ localStorage.setItem(STORE, JSON.stringify(data || {})); }catch(e){ console.warn('Local backup failed', e); }
+  cloudData = data || {};
+  updateCloudStatus();
+}
 function cloudConfigured(){ return !!CLOUD_SCRIPT_URL && !CLOUD_SCRIPT_URL.includes('PASTE'); }
+function mergeData(local, remote){
+  const out = JSON.parse(JSON.stringify(remote || {}));
+  Object.keys(local || {}).forEach(pid=>{
+    out[pid] ||= {};
+    Object.keys(local[pid] || {}).forEach(date=>{
+      const l = local[pid][date]; const r = out[pid][date];
+      if(!r || new Date(l.savedAt||0) >= new Date(r.savedAt||0)) out[pid][date] = l;
+    });
+  });
+  return out;
+}
 function cloudRequest(params){
   return new Promise((resolve,reject)=>{
     if(!cloudConfigured()) return reject(new Error('Shared data URL is not configured.'));
@@ -407,7 +433,8 @@ async function loadCloudData(){
     updateCloudStatus('Loading shared team data...');
     const json = await cloudRequest({action:'get'});
     if(json.ok === false) throw new Error(json.error || 'Shared data returned an error.');
-    cloudData = json.data || {};
+    const localBackup = JSON.parse(localStorage.getItem(STORE) || '{}');
+    cloudData = mergeData(localBackup, json.data || {});
     localStorage.setItem(STORE, JSON.stringify(cloudData));
     lastCloudSync = new Date(); cloudError=''; updateCloudStatus();
   }catch(err){
@@ -468,10 +495,15 @@ async function init(){
   document.getElementById('loginBtn').addEventListener('click', login);
   document.getElementById('homeLogout').addEventListener('click', logoutPlayer);
   document.getElementById('checkinLogout').addEventListener('click', logoutPlayer);
-  document.getElementById('saveCheckin').addEventListener('click', saveCheckin);
+  document.getElementById('saveCheckin').addEventListener('click', ()=>saveCheckin('reflection/check-in'));
+  document.getElementById('submitWorkout')?.addEventListener('click', ()=>{ document.getElementById('workoutCheck').checked=true; saveCheckin('workout'); });
+  document.getElementById('submitShooting')?.addEventListener('click', ()=>saveCheckin('puck/save challenge'));
+  document.getElementById('submitBonus')?.addEventListener('click', ()=>saveCheckin('extra work'));
+  document.getElementById('prevDateBtn')?.addEventListener('click', ()=>changeCheckinDate(-1));
+  document.getElementById('nextDateBtn')?.addEventListener('click', ()=>changeCheckinDate(1));
   document.querySelectorAll('[data-step]').forEach(btn=>btn.addEventListener('click',()=>adjustShots(Number(btn.dataset.step))));
   document.getElementById('shotCount').addEventListener('input', updatePuckMeter);
-  document.getElementById('checkinDate')?.addEventListener('change', ()=>{ if(activePlayer) renderDashboard(); });
+  document.getElementById('checkinDate')?.addEventListener('change', ()=>{ const cd=document.getElementById('checkinDate'); if(cd && cd.value > todayKey()) cd.value=todayKey(); updateDateButtons(); if(activePlayer) renderDashboard(); });
   document.getElementById('exportData').addEventListener('click', exportData);
   document.getElementById('importData').addEventListener('change', importData);
   document.getElementById('resetTesting').addEventListener('click', resetTesting);
@@ -581,7 +613,7 @@ function renderGlobal(){
   demoLink.href = `https://www.youtube.com/results?search_query=youth+hockey+${encodeURIComponent(shot.focus)}+drill`;
   demoLink.textContent = `Search demos for ${shot.focus}`;
   document.getElementById('dateOverride').value = localStorage.getItem('hawksDateOverride') || '';
-  const cd=document.getElementById('checkinDate'); if(cd && !cd.value){ cd.min=START; cd.max=END; cd.value=todayKey(); }
+  const cd=document.getElementById('checkinDate'); if(cd && !cd.value){ cd.min=START; cd.max=todayKey(); cd.value=todayKey(); } updateDateButtons();
 }
 
 function login(){
@@ -642,7 +674,7 @@ function bonusPointsFor(rec,date,id){
 function getBadges(stats){ return BADGE_RULES.filter(b=>b.test(stats)).map(b=>b.label); }
 
 function renderDashboard(){
-  const d=activeDateKey(); const dateInput=document.getElementById('checkinDate'); if(dateInput){ dateInput.min=START; dateInput.max=END; if(!dateInput.value) dateInput.value=todayKey(); } const idx=dayIndex(d); const w=workouts[idx%workouts.length]; const s=shots[idx%shots.length]; const data=getData(); const id=playerId(activePlayer); const rec=data[id]?.[d] || {};
+  const d=activeDateKey(); const dateInput=document.getElementById('checkinDate'); if(dateInput){ dateInput.min=START; dateInput.max=todayKey(); if(!dateInput.value) dateInput.value=todayKey(); } updateDateButtons(); const idx=dayIndex(d); const w=workouts[idx%workouts.length]; const s=shots[idx%shots.length]; const data=getData(); const id=playerId(activePlayer); const rec=data[id]?.[d] || {};
   document.getElementById('dashboardTitle').textContent = `#${activePlayer.num} ${activePlayer.name}`;
   renderPlayerPhoto(activePlayer);
   document.getElementById('playerMeta').innerHTML = `<span class="chip">${activePlayer.role==='goalie'?'Goalie':'Skater'}</span><span class="chip">${isTesting(d)?'Launch Week':(isOfficial(d)?'Official Day':'Preview')}</span><span class="chip">Day ${idx+1}</span>`;
@@ -671,15 +703,47 @@ function renderDashboard(){
 function adjustShots(step){ const input=document.getElementById('shotCount'); input.value=Math.max(0, Math.min(300, Number(input.value||0)+step)); if(Number(input.value)>=150) document.getElementById('shotCheck').checked=true; updatePuckMeter(); }
 function updatePuckMeter(){ const fill=document.getElementById('puckMeterFill'); const input=document.getElementById('shotCount'); if(!fill || !input) return; fill.style.width = Math.min(100, (Number(input.value||0)/150)*100) + '%'; }
 function score(rec, date, id){ if(!rec) return 0; if(!isOfficial(date)) return 0; let pts=0; if(rec.workout) pts+=5; if(rec.shotDone || Number(rec.shots)>=150) pts+=5; if((rec.reflection||'').trim().length>3) pts+=1; if(rec.workout && (rec.shotDone || Number(rec.shots)>=150)) pts+=2; pts += bonusPointsFor(rec,date,id); return pts; }
-async function saveCheckin(){
+async function saveCheckin(source='check-in') {
   if(!activePlayer) return;
-  const d=activeDateKey(); const data=getData(); const id=playerId(activePlayer); data[id] ||= {};
-  const record = { workout:document.getElementById('workoutCheck').checked, shots:Number(document.getElementById('shotCount').value||0), shotDone:document.getElementById('shotCheck').checked || Number(document.getElementById('shotCount').value||0)>=150, reflection:document.getElementById('reflection').value.trim(), bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked}, savedAt:new Date().toISOString(), savedForDate:d, testing:isTesting(d), official:isOfficial(d) };
+  const d = activeDateKey();
+  if(d > todayKey()){ document.getElementById('saveMessage').textContent = 'You cannot submit a future date.'; document.getElementById('saveMessage').className='save-message bad'; return; }
+  const data = getData(); const id = playerId(activePlayer); data[id] ||= {};
+  const record = {
+    workout:document.getElementById('workoutCheck').checked,
+    shots:Number(document.getElementById('shotCount').value||0),
+    shotDone:document.getElementById('shotCheck').checked || Number(document.getElementById('shotCount').value||0)>=150,
+    reflection:document.getElementById('reflection').value.trim(),
+    bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked},
+    savedAt:new Date().toISOString(), savedForDate:d, testing:isTesting(d), official:isOfficial(d), submittedFrom:source
+  };
   data[id][d] = record;
-  setData(data); const cloudResult = await saveCloudRecord(id, d, record);
-  const baseMsg = isTesting(d) ? 'Saved for Testing Week! This will reset on Monday June 29.' : (isOfficial(d) ? 'Saved! Great work.' : 'Saved as preview data.');
-  document.getElementById('saveMessage').textContent = cloudResult.ok ? `${baseMsg} Shared team data updated.` : `${baseMsg} This device saved it, but shared team data did not confirm.`;
-  await loadCloudData(); renderDashboard(); renderLeaderboards();
+  setData(data);
+  renderDashboard(); renderLeaderboards();
+  const msgEl=document.getElementById('saveMessage');
+  const baseMsg = isTesting(d) ? `Saved ${source} for Testing Week.` : (isOfficial(d) ? `Saved ${source}. Great work.` : `Saved ${source} as preview data.`);
+  msgEl.textContent = baseMsg + ' Saving to shared team data...'; msgEl.className='save-message warn';
+  const cloudResult = await saveCloudRecord(id, d, record);
+  if(cloudResult.ok){ msgEl.textContent = baseMsg + ' Shared team data updated.'; msgEl.className='save-message good'; }
+  else { msgEl.textContent = baseMsg + ' This device saved it, but shared team data did not confirm yet.'; msgEl.className='save-message warn'; }
+  renderDashboard(); renderLeaderboards();
+}
+function changeCheckinDate(delta){
+  const input=document.getElementById('checkinDate'); if(!input) return;
+  const cur = new Date((input.value || todayKey())+'T00:00:00');
+  cur.setDate(cur.getDate()+delta);
+  const min = new Date(START+'T00:00:00'); const max = new Date(todayKey()+'T00:00:00');
+  if(cur < min) cur.setTime(min.getTime());
+  if(cur > max) cur.setTime(max.getTime());
+  input.value = cur.toLocaleDateString('en-CA');
+  updateDateButtons(); if(activePlayer) renderDashboard();
+}
+function updateDateButtons(){
+  const input=document.getElementById('checkinDate'); const prev=document.getElementById('prevDateBtn'); const next=document.getElementById('nextDateBtn');
+  if(!input || !prev || !next) return;
+  const val=input.value || todayKey(); const today=todayKey();
+  prev.disabled = val <= START;
+  next.classList.toggle('hidden', !(val < today));
+  next.disabled = !(val < today);
 }
 function dateRange(){ const dates=[]; let d=new Date(START+'T00:00:00'); const end=new Date(END+'T00:00:00'); while(d<=end){dates.push(d.toLocaleDateString('en-CA')); d.setDate(d.getDate()+1);} return dates; }
 function weekStart(dateStr){ const d=new Date(dateStr+'T00:00:00'); const day=d.getDay(); const diff=(day+6)%7; d.setDate(d.getDate()-diff); return d.toLocaleDateString('en-CA'); }
