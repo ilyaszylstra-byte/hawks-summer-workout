@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -197,12 +198,15 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
             </article>
             <article class="missionCard bonus-card">
               <div class="missionTop"><span>⭐</span><div><p class="kicker">Optional Bonus Training</p><h3>Extra Work</h3></div><em>Recognition Points</em></div>
-              <p>Log extra hockey development completed for the selected day. Rollerblading can be counted every day if players are putting in the extra work.</p>
+              <p>Log extra hockey development or other athletic activity completed for the selected day. Hockey players are athletes, so summer sports, camps, running, biking, and extra hockey work all count.</p>
               <div class="bonus-grid">
                 <label class="bonus-option"><input type="checkbox" id="bonusRoller" /> Rollerblading <small>+10 pts each day</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusPower" /> Power skating / skating clinic <small>+20 pts</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusPrivate" /> Private lesson <small>+20 pts</small></label>
                 <label class="bonus-option"><input type="checkbox" id="bonusIce" /> Summer ice / stick & puck <small>+15 pts</small></label>
+                <label class="bonus-option"><input type="checkbox" id="bonusBikeRun" /> Bike ride or run <small>+10 pts</small></label>
+                <label class="bonus-option"><input type="checkbox" id="bonusOtherSport" /> Other sport practice or game <small>+15 pts</small></label>
+                <label class="bonus-option"><input type="checkbox" id="bonusSportsCamp" /> Sports camp <small>+20 pts</small></label>
               </div>
               <div class="extra-shot-box">
                 <strong>More Puck Shooting / Saves</strong>
@@ -667,11 +671,11 @@ function renderPlayerPhoto(player){
   const id=playerId(player); const src=PLAYER_PHOTOS[id];
   slot.innerHTML = src ? `<img src="${src}" alt="${player.name}">` : `<div class="photo-placeholder"><b>#${player.num}</b><span>${initials(player.name)}</span></div>`;
 }
-function bonusLabels(rec){ const b=rec?.bonus||{}; const out=[]; if(b.roller) out.push('🛼 Roller'); if(b.power) out.push('⛸️ Power'); if(b.privateLesson) out.push('🏒 Lesson'); if(b.ice) out.push('🥅 Ice'); if(Number(b.extraShots||0)>0) out.push(`🎯 +${Number(b.extraShots||0)} shots`); return out; }
+function bonusLabels(rec){ const b=rec?.bonus||{}; const out=[]; if(b.roller) out.push('🛼 Roller'); if(b.power) out.push('⛸️ Power'); if(b.privateLesson) out.push('🏒 Lesson'); if(b.ice) out.push('🥅 Ice'); if(b.bikeRun) out.push('🚴 Bike / Run'); if(b.otherSport) out.push('🏅 Other Sport'); if(b.sportsCamp) out.push('🏕️ Sports Camp'); if(Number(b.extraShots||0)>0) out.push(`🎯 +${Number(b.extraShots||0)} shots`); return out; }
 function bonusPointsFor(rec,date,id){
   const b=rec?.bonus||{}; let pts=0;
   if(b.roller) pts+=10;
-  if(b.power) pts+=20; if(b.privateLesson) pts+=20; if(b.ice) pts+=15;
+  if(b.power) pts+=20; if(b.privateLesson) pts+=20; if(b.ice) pts+=15; if(b.bikeRun) pts+=10; if(b.otherSport) pts+=15; if(b.sportsCamp) pts+=20;
   pts += Math.floor(Number(b.extraShots||0) / 25);
   return pts;
 }
@@ -694,6 +698,9 @@ function renderDashboard(){
   document.getElementById('bonusPower').checked = !!rec.bonus?.power;
   document.getElementById('bonusPrivate').checked = !!rec.bonus?.privateLesson;
   document.getElementById('bonusIce').checked = !!rec.bonus?.ice;
+  document.getElementById('bonusBikeRun').checked = !!rec.bonus?.bikeRun;
+  document.getElementById('bonusOtherSport').checked = !!rec.bonus?.otherSport;
+  document.getElementById('bonusSportsCamp').checked = !!rec.bonus?.sportsCamp;
   document.getElementById('bonusExtraShots').value = Number(rec.bonus?.extraShots||0);
   updatePuckMeter();
   const stats = computeStats(id);
@@ -722,7 +729,7 @@ async function saveCheckin(source='check-in') {
     shots:Number(document.getElementById('shotCount').value||0),
     shotDone:document.getElementById('shotCheck').checked || Number(document.getElementById('shotCount').value||0)>=150,
     reflection:document.getElementById('reflection').value.trim(),
-    bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked, extraShots:Number(document.getElementById('bonusExtraShots').value||0)},
+    bonus:{roller:document.getElementById('bonusRoller').checked, power:document.getElementById('bonusPower').checked, privateLesson:document.getElementById('bonusPrivate').checked, ice:document.getElementById('bonusIce').checked, bikeRun:document.getElementById('bonusBikeRun').checked, otherSport:document.getElementById('bonusOtherSport').checked, sportsCamp:document.getElementById('bonusSportsCamp').checked, extraShots:Number(document.getElementById('bonusExtraShots').value||0)},
     savedAt:new Date().toISOString(), savedForDate:d, testing:isTesting(d), official:isOfficial(d), submittedFrom:source
   };
   data[id][d] = record;
