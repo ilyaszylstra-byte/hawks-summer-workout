@@ -41,6 +41,7 @@ body{background:#020204!important;}
 
 .dateNavRow{display:grid;grid-template-columns:52px 1fr 52px;gap:10px;align-items:center;margin-top:10px}.dateArrow,.sectionSubmit{border:0;border-radius:14px;background:linear-gradient(135deg,#e10600,#8b0000);color:#fff;font-weight:900;letter-spacing:.06em;box-shadow:0 12px 24px rgba(0,0,0,.35);cursor:pointer}.dateArrow{height:52px;font-size:22px}.dateArrow.hidden{visibility:hidden;display:block!important}.sectionSubmit{margin-top:14px;width:100%;padding:14px 16px}.sectionSubmit:hover,.dateArrow:hover{filter:brightness(1.08);transform:translateY(-1px)}.sectionSubmit.saving{opacity:.75;pointer-events:none}.save-message.good{color:#a4ffba}.save-message.warn{color:#ffd27a}.save-message.bad{color:#ff8f98}
 .extra-shot-box{margin-top:12px;padding:12px;background:#05070c;border:1px solid rgba(244,200,75,.35);border-left:6px solid var(--gold)}.extra-shot-box strong{display:block;text-transform:uppercase;letter-spacing:.04em}.extra-shot-box small{display:block;color:var(--muted);font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800;margin:4px 0 10px}.extra-shot-box .progress-control{margin-top:6px}.archiveNote{border:1px solid rgba(244,200,75,.35);background:rgba(244,200,75,.08);padding:10px 12px;margin:10px 0;color:#ffeaa5;font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800}
+.shotTotalPill{border-color:rgba(244,200,75,.72)!important;background:linear-gradient(145deg,rgba(244,200,75,.16),rgba(227,25,38,.14))!important}.shotTotalPill b{color:#ffe075!important}.shots-board{grid-column:1/-1}.shots-board h3{color:#ffe075}.shots-board tbody tr:first-child td{background:rgba(244,200,75,.1)}
 </style>
 
 <style id="readability-fix-v1-7">
@@ -96,6 +97,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
 
 .dateNavRow{display:grid;grid-template-columns:52px 1fr 52px;gap:10px;align-items:center;margin-top:10px}.dateArrow,.sectionSubmit{border:0;border-radius:14px;background:linear-gradient(135deg,#e10600,#8b0000);color:#fff;font-weight:900;letter-spacing:.06em;box-shadow:0 12px 24px rgba(0,0,0,.35);cursor:pointer}.dateArrow{height:52px;font-size:22px}.dateArrow.hidden{visibility:hidden;display:block!important}.sectionSubmit{margin-top:14px;width:100%;padding:14px 16px}.sectionSubmit:hover,.dateArrow:hover{filter:brightness(1.08);transform:translateY(-1px)}.sectionSubmit.saving{opacity:.75;pointer-events:none}.save-message.good{color:#a4ffba}.save-message.warn{color:#ffd27a}.save-message.bad{color:#ff8f98}
 .extra-shot-box{margin-top:12px;padding:12px;background:#05070c;border:1px solid rgba(244,200,75,.35);border-left:6px solid var(--gold)}.extra-shot-box strong{display:block;text-transform:uppercase;letter-spacing:.04em}.extra-shot-box small{display:block;color:var(--muted);font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800;margin:4px 0 10px}.extra-shot-box .progress-control{margin-top:6px}.archiveNote{border:1px solid rgba(244,200,75,.35);background:rgba(244,200,75,.08);padding:10px 12px;margin:10px 0;color:#ffeaa5;font-family:Inter,Segoe UI,Arial,sans-serif;font-weight:800}
+.shotTotalPill{border-color:rgba(244,200,75,.72)!important;background:linear-gradient(145deg,rgba(244,200,75,.16),rgba(227,25,38,.14))!important}.shotTotalPill b{color:#ffe075!important}.shots-board{grid-column:1/-1}.shots-board h3{color:#ffe075}.shots-board tbody tr:first-child td{background:rgba(244,200,75,.1)}
 </style>
 </head>
 <body>
@@ -144,7 +146,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
       </div>
       <div class="quickGrid">
         <button class="featureTile red" data-screen="today"><span>✅</span><b>Daily Mission</b><small>Workout + 150 reps</small></button>
-        <button class="featureTile" data-screen="leaderboards"><span>🏆</span><b>Leaderboards</b><small>Weekly + overall</small></button>
+        <button class="featureTile" data-screen="leaderboards"><span>🏆</span><b>Leaderboards</b><small>Points + shot totals</small></button>
         <button class="featureTile" data-screen="weeklyHistory"><span>👑</span><b>Champ Board</b><small>Every week stays posted</small></button>
         <button class="featureTile" data-screen="program"><span>⚡</span><b>Speed Plan</b><small>Built for hockey legs</small></button>
       </div>
@@ -152,6 +154,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
         <div><strong>TODAY'S TEAM PROGRESS</strong><small>Get the Hawks to 100%</small></div>
         <div class="statPill"><b id="todayWorkouts">0/17</b><span>Workouts Today</span></div>
         <div class="statPill"><b id="todayReps">0/2550</b><span>Pucks / Saves Today</span></div>
+        <div class="statPill shotTotalPill"><b id="summerTeamReps">0</b><span>Team Shots / Saves All Summer</span></div>
         <div class="statPill"><b id="todayPerfect">0</b><span>Perfect Days Today</span></div>
       </div>
     </section>
@@ -210,7 +213,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
               </div>
               <div class="extra-shot-box">
                 <strong>More Puck Shooting / Saves</strong>
-                <small>Add extra reps beyond the 150 mission. Every +25 adds to player/team totals and earns +1 bonus point.</small>
+                <small>Add extra reps beyond the 150 mission. Starting July 6, reaching 150 earns 8 shooting points, and every additional +25 earns 2 more points. All reps still add to player and team totals.</small>
                 <div class="progress-control"><button data-extra-step="-25" type="button">-25</button><input type="number" id="bonusExtraShots" min="0" max="1000" step="25" value="0" /><button data-extra-step="25" type="button">+25</button></div>
               </div>
               <button id="submitBonus" class="sectionSubmit" type="button">SUBMIT EXTRA WORK</button>
@@ -234,6 +237,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
       <div class="leaderGrid">
         <article class="board"><h3>Weekly Race</h3><div id="weeklyPodium" class="podium"></div><table><thead><tr><th>Rank</th><th>Player</th><th>Pts</th><th>Days</th></tr></thead><tbody id="weeklyLeaderboard"></tbody></table></article>
         <article class="board"><h3>Overall Standings</h3><div id="overallPodium" class="podium"></div><table><thead><tr><th>Rank</th><th>Player</th><th>Pts</th><th>Streak</th></tr></thead><tbody id="overallLeaderboard"></tbody></table></article>
+        <article class="board shots-board"><h3>Shots / Saves Leaders</h3><p class="tiny">Every recorded puck shot, save, block, reaction rep, and extra +25 is counted — even on shooting-only days. From July 6 onward: 150 reps = 8 points and every additional 25 = +2 points.</p><div id="shotsPodium" class="podium"></div><table><thead><tr><th>Rank</th><th>Player</th><th>Shots / Saves</th><th>Days Recorded</th></tr></thead><tbody id="shotsLeaderboard"></tbody></table></article>
       </div>
     </section>
 
@@ -252,7 +256,7 @@ body{font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif!important;}
         </article>
         <article class="program-card">
           <span>💪</span><h3>Daily Points</h3>
-          <p>Workout = 5 pts. Hockey challenge = 5 pts. Reflection = 1 pt. Perfect day = 2 bonus pts.</p>
+          <p>Workout = 5 pts. Shooting goal = 8 pts beginning July 6. Every additional 25 shots/saves beyond 150 = +2 pts. Reflection = 1 pt. Perfect day = 2 bonus pts.</p>
           <p class="tiny"><b>Official Program:</b> Week 1 begins Monday June 29. Testing Week stays visible on the Champions Board, but official points start fresh.</p>
         </article>
         <article class="program-card">
@@ -676,8 +680,17 @@ function bonusPointsFor(rec,date,id){
   const b=rec?.bonus||{}; let pts=0;
   if(b.roller) pts+=10;
   if(b.power) pts+=20; if(b.privateLesson) pts+=20; if(b.ice) pts+=15; if(b.bikeRun) pts+=10; if(b.otherSport) pts+=15; if(b.sportsCamp) pts+=20;
-  pts += Math.floor(Number(b.extraShots||0) / 25);
   return pts;
+}
+function shootingPointsFor(rec,date){
+  const completed150 = !!(rec?.shotDone || Number(rec?.shots||0) >= 150);
+  const totalReps = totalRepsForRecord(rec);
+  if(date < '2026-07-06'){
+    return (completed150 ? 5 : 0) + Math.floor(Number(rec?.bonus?.extraShots||0) / 25);
+  }
+  if(!completed150 && totalReps < 150) return 0;
+  const extraBlocks = Math.floor(Math.max(0, totalReps - 150) / 25);
+  return 8 + (extraBlocks * 2);
 }
 function getBadges(stats){ return BADGE_RULES.filter(b=>b.test(stats)).map(b=>b.label); }
 
@@ -716,7 +729,7 @@ function adjustShots(step){ const input=document.getElementById('shotCount'); in
 function normalizeExtraShots(){ const input=document.getElementById('bonusExtraShots'); if(!input) return; let val=Math.max(0, Math.min(1000, Number(input.value||0))); val = Math.round(val/25)*25; input.value=val; }
 function adjustExtraShots(step){ const input=document.getElementById('bonusExtraShots'); if(!input) return; input.value=Math.max(0, Math.min(1000, Number(input.value||0)+step)); normalizeExtraShots(); }
 function totalRepsForRecord(rec){ return Number(rec?.shots||0) + Number(rec?.bonus?.extraShots||0); }
-function trainingScore(rec, date, id){ if(!rec) return 0; let pts=0; if(rec.workout) pts+=5; if(rec.shotDone || Number(rec.shots)>=150) pts+=5; if((rec.reflection||'').trim().length>3) pts+=1; if(rec.workout && (rec.shotDone || Number(rec.shots)>=150)) pts+=2; pts += bonusPointsFor(rec,date,id); return pts; }
+function trainingScore(rec, date, id){ if(!rec) return 0; let pts=0; if(rec.workout) pts+=5; pts+=shootingPointsFor(rec,date); if((rec.reflection||'').trim().length>3) pts+=1; if(rec.workout && (rec.shotDone || Number(rec.shots)>=150)) pts+=2; pts += bonusPointsFor(rec,date,id); return pts; }
 function updatePuckMeter(){ const fill=document.getElementById('puckMeterFill'); const input=document.getElementById('shotCount'); if(!fill || !input) return; fill.style.width = Math.min(100, (Number(input.value||0)/150)*100) + '%'; }
 function score(rec, date, id){ if(!rec || !isOfficial(date)) return 0; return trainingScore(rec,date,id); }
 async function saveCheckin(source='check-in') {
@@ -806,12 +819,18 @@ function renderWeeklyHistory(){
     return `<div class="week-card ${isCurrent?'current':''}"><p class="eyebrow">${label}${isCurrent?' • Current':''}</p><h3>${startLabel}–${endLabel}</h3><div class="winner-line"><div class="winner-badge">${top.value>0?'🏆':'—'}</div><div><strong>${status}</strong><br><small>${pts}</small></div></div></div>`;
   }).join('');
 }
+function allSummerTeamReps(){
+  const data=getData(); let total=0;
+  PLAYERS.forEach(p=>{ const records=data[playerId(p)]||{}; Object.entries(records).forEach(([date,rec])=>{ if(date>=START && date<=END) total += totalRepsForRecord(rec); }); });
+  return total;
+}
 function renderSnapshot(){
   const data=getData(); const d=todayKey(); let workoutsDone=0,reps=0,perfect=0;
   PLAYERS.forEach(p=>{ const rec=(data[playerId(p)]||{})[d]; if(!rec) return; if(rec.workout) workoutsDone++; reps += totalRepsForRecord(rec); if(rec.workout && (rec.shotDone || Number(rec.shots)>=150)) perfect++; });
   const teamGoal = PLAYERS.length * 150;
   document.getElementById('todayWorkouts').textContent=`${workoutsDone}/${PLAYERS.length}`;
   document.getElementById('todayReps').textContent=`${reps.toLocaleString()}/${teamGoal.toLocaleString()}`;
+  const summerEl=document.getElementById('summerTeamReps'); if(summerEl) summerEl.textContent=allSummerTeamReps().toLocaleString();
   document.getElementById('todayPerfect').textContent=perfect;
 }
 function formatLastSaved(rec){
@@ -843,12 +862,17 @@ function renderCoachTracker(){
   document.getElementById('coachPerfectToday').textContent = perfect;
   document.getElementById('coachActiveWeek').textContent = activeWeek;
 }
+function shotsLeaderboardData(){
+  return PLAYERS.map(p=>{ const id=playerId(p); const records=getData()[id]||{}; let reps=0, repDays=0; Object.entries(records).forEach(([date,rec])=>{ if(date<START || date>END) return; const dayReps=totalRepsForRecord(rec); reps+=dayReps; if(dayReps>0) repDays++; }); return {p,id,reps,repDays,value:reps}; }).sort((a,b)=>b.reps-a.reps || b.repDays-a.repDays || a.p.num-b.p.num);
+}
 function renderLeaderboards(){
   const row = (x,i,type)=>`<tr><td>${i+1}</td><td>#${x.p.num} ${x.p.name}${x.p.role==='goalie'?' 🥅':''}</td><td>${x.value}</td><td>${type==='week'?x.days:x.streak}</td></tr>`;
-  const weekly=leaderboard('week'); const overall=leaderboard('overall');
+  const weekly=leaderboard('week'); const overall=leaderboard('overall'); const shotLeaders=shotsLeaderboardData();
   renderPodium('weeklyPodium', weekly, 'week'); renderPodium('overallPodium', overall, 'overall');
   document.getElementById('weeklyLeaderboard').innerHTML = weekly.map((x,i)=>row(x,i,'week')).join('');
   document.getElementById('overallLeaderboard').innerHTML = overall.map((x,i)=>row(x,i,'overall')).join('');
+  const shotsPodium=document.getElementById('shotsPodium'); if(shotsPodium){ const medals=['🥇','🥈','🥉']; shotsPodium.innerHTML=shotLeaders.slice(0,3).map((x,i)=>`<div class="podium-card"><div class="medal">${medals[i]}</div><div class="podium-photo">#${x.p.num}</div><strong>#${x.p.num} ${x.p.name}${x.p.role==='goalie'?' 🥅':''}</strong><small>${x.reps.toLocaleString()} shots / saves</small></div>`).join(''); }
+  const shotsBody=document.getElementById('shotsLeaderboard'); if(shotsBody) shotsBody.innerHTML=shotLeaders.map((x,i)=>`<tr><td>${i+1}</td><td>#${x.p.num} ${x.p.name}${x.p.role==='goalie'?' 🥅':''}</td><td>${x.reps.toLocaleString()}</td><td>${x.repDays}</td></tr>`).join('');
   renderWeeklyHistory(); renderSnapshot(); if(coachUnlocked) renderCoachTracker();
 }
 function exportData(){ const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`hawks-training-data-${todayKey()}.json`; a.click(); }
